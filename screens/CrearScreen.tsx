@@ -1,5 +1,8 @@
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native'
 import React, { useState } from 'react'
+import { doc, setDoc } from 'firebase/firestore/lite';
+import { db } from '../firebase/Config';
+import { ref, set } from 'firebase/database';
 
 export default function CrearScreen() {
   const [nombre, setNombre] = useState('');
@@ -7,16 +10,18 @@ export default function CrearScreen() {
   const [categoria, setCategoria] = useState('');
   const [stock, setStock] = useState('');
 
-  // Calcular precio con descuento (10% menos)
+
+ function guardar() {
   const precioNum = parseFloat(precio) || 0;
   const precioDescuento = (precioNum * 0.9).toFixed(2);
 
-  const handleGuardar = () => {
-    alert(
-      `Nombre: ${nombre}\nPrecio: ${precio}\nPrecio con descuento: ${precioDescuento}\nCategoría: ${categoria}\nStock: ${stock}`
-    );
-    // Aquí puedes guardar los datos, incluyendo precioDescuento
-  };
+  set(ref(db, 'productos/' + nombre), {
+    precio: precio,
+    preciodescuento: precioDescuento,
+    categoria: categoria,
+    stock: stock
+  });
+}  
 
   return (
     <View style={styles.container}>
@@ -25,36 +30,33 @@ export default function CrearScreen() {
         style={styles.input}
         placeholder="Nombre"
         value={nombre}
-        onChangeText={setNombre}
+       onChangeText={(texto)=> setNombre(texto)}
       />
       <TextInput
         style={styles.input}
         placeholder="Precio"
         value={precio}
-        onChangeText={setPrecio}
+        onChangeText={(texto)=> setPrecio(texto)}
         keyboardType="numeric"
       />
-      <Text style={styles.descuento}>
-        Precio con descuento: ${precioDescuento}
-      </Text>
       <TextInput
         style={styles.input}
         placeholder="Categoría"
         value={categoria}
-        onChangeText={setCategoria}
+        onChangeText={(texto)=> setCategoria(texto)}
       />
       <TextInput
         style={styles.input}
         placeholder="Stock"
         value={stock}
-        onChangeText={setStock}
+        onChangeText={(texto)=> setStock(texto)}
         keyboardType="numeric"
       />
-      <Button title="Guardar" onPress={handleGuardar} />
+      <Button title="Guardar" onPress={()=>guardar()} />
     </View>
   )
-}
 
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -84,5 +86,5 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     textAlign: 'center',
     fontWeight: 'bold',
-  },
+  }
 });

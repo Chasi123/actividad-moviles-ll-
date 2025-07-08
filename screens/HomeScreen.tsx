@@ -21,7 +21,7 @@ export default function HomeScreen({navigation}: any) {
         <Text style={styles.cardIcon}>❌</Text>
         <Text style={styles.cardTitle}>Eliminar</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.btn} onPress={()=> navigation.navigate("OperacionMatematica") }>
+      <TouchableOpacity style={styles.btn} onPress={()=> navigation.navigate("Operacion") }>
         <Text style={styles.cardIcon}>🧮</Text>
         <Text style={styles.cardTitle}>Operación Matemática</Text>
       </TouchableOpacity>
