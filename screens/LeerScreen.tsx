@@ -22,7 +22,6 @@ export default function LeerScreen() {
     leer(); 
   }, []);
 
-  // Filtrar productos con stock menor a 10 si filtrar es true
   const datosFiltrados = filtrar
     ? datos.filter((item: any) => parseFloat(item.stock) < 10)
     : datos;
